@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { connectSocket, getSocket } from "../src/socket";
+import { BACKEND_URL } from "../src/config";
 
 const Chat = () => {
     const user = useSelector((state) => state.auth.user);
@@ -14,7 +15,7 @@ const Chat = () => {
     const getFriends = async () => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/users/friends?userId=${user.id}`
+                `${BACKEND_URL}/api/users/friends?userId=${user.id}`
             );
             const data = await response.json();
             setFriends(data);
@@ -27,7 +28,7 @@ const Chat = () => {
     const getMessages = async (friendId) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/messages?from=${user.id}&to=${friendId}`
+                `${BACKEND_URL}/api/messages?from=${user.id}&to=${friendId}`
             );
             const data = await response.json();
             console.log("fetched messages:", data);

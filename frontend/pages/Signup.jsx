@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../src/config";
 
 const Signup = () => {
     const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -17,7 +18,7 @@ const Signup = () => {
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:3000/api/auth/signup", {
+            const res = await fetch(`${BACKEND_URL}/api/auth/signup`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "../src/components/Skeleton";
 import { useToast } from "../src/context/ToastContext";
+import { BACKEND_URL } from "../src/config";
 
 const Home = () => {
     const { showToast } = useToast();
@@ -20,7 +21,7 @@ const Home = () => {
     const getRooms = async () => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/rooms?userId=${user.id}`
+                `${BACKEND_URL}/api/rooms?userId=${user.id}`
             );
             const data = await response.json();
             setRooms(data);
@@ -35,7 +36,7 @@ const Home = () => {
     const getFriends = async () => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/users/friends?userId=${user.id}`
+                `${BACKEND_URL}/api/users/friends?userId=${user.id}`
             );
             const data = await response.json();
             console.log("Fetched friends:", data);
@@ -50,7 +51,7 @@ const Home = () => {
         e.preventDefault();
         try {
             getFriends();
-            const response = await fetch(`http://localhost:3000/api/rooms/create`, {
+            const response = await fetch(`${BACKEND_URL}/api/rooms/create`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

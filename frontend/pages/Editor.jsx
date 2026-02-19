@@ -5,6 +5,7 @@ import { connectSocket, getSocket } from '../src/socket'
 import { useSelector } from 'react-redux'
 import { useToast } from '../src/context/ToastContext'
 import Skeleton from '../src/components/Skeleton'
+import { BACKEND_URL } from '../src/config';
 
 const EditorPage = () => {
     const { showToast } = useToast();
@@ -30,7 +31,7 @@ const EditorPage = () => {
     const saveCode = async () => {
         try {
             console.log("Auto-saving code for user:", user?.id);
-            const response = await fetch(`http://localhost:3000/api/rooms/save-code`, {
+            const response = await fetch(`${BACKEND_URL}/api/rooms/save-code`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -64,7 +65,7 @@ const EditorPage = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/users/all-users?userId=${user.id}`);
+            const response = await fetch(`${BACKEND_URL}/api/users/all-users?userId=${user.id}`);
             const data = await response.json();
             setAllUsers(data)
         }
@@ -75,7 +76,7 @@ const EditorPage = () => {
 
     const fetchRoomDetails = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/rooms/get-details?roomId=${roomId}`);
+            const response = await fetch(`${BACKEND_URL}/api/rooms/get-details?roomId=${roomId}`);
             const data = await response.json();
             setRoomDetails(data);
         } catch (error) {
@@ -85,7 +86,7 @@ const EditorPage = () => {
 
     const sendInvite = async (recipientId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/notifications/send`, {
+            const response = await fetch(`${BACKEND_URL}/api/notifications/send`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -127,7 +128,7 @@ const EditorPage = () => {
 
     const getCode = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/rooms/get-code?roomId=${roomId}`);
+            const response = await fetch(`${BACKEND_URL}/api/rooms/get-code?roomId=${roomId}`);
 
             const data = await response.json();
             setcode(data.code || "// Start coding...");
@@ -139,7 +140,7 @@ const EditorPage = () => {
 
     const getMessages = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/rooms/get-messages?roomId=${roomId}`);
+            const response = await fetch(`${BACKEND_URL}/api/rooms/get-messages?roomId=${roomId}`);
             const data = await response.json();
             setMessages(data);
         }

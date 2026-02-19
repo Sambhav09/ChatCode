@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { getSocket } from '../src/socket';
 import { useToast } from '../src/context/ToastContext';
 import Skeleton from '../src/components/Skeleton';
+import { BACKEND_URL } from '../src/config';
 
 const Notifications = () => {
     const { showToast } = useToast();
@@ -12,7 +13,7 @@ const Notifications = () => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/notifications?userId=${user.id}`);
+            const response = await fetch(`${BACKEND_URL}/api/notifications?userId=${user.id}`);
             const data = await response.json();
             setNotifications(data);
             setLoading(false);
@@ -39,7 +40,7 @@ const Notifications = () => {
 
     const handleInviteAction = async (notificationId, status) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/notifications/respond`, {
+            const response = await fetch(`${BACKEND_URL}/api/notifications/respond`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ notificationId, status }),

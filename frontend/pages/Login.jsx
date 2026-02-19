@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
+import { BACKEND_URL } from "../src/config";
 
 const Login = () => {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -20,7 +21,7 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:3000/api/auth/login", {
+            const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),

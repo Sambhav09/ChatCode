@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { BACKEND_URL } from '../src/config';
 
 const Users = () => {
 
@@ -10,7 +11,7 @@ const Users = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/users/all-users?userId=${user.id}`);
+            const response = await fetch(`${BACKEND_URL}/api/users/all-users?userId=${user.id}`);
             const data = await response.json();
             setAllUsers(data)
         }
@@ -28,7 +29,7 @@ const Users = () => {
 
     const sendRequest = async (targetId) => {
         try {
-            const response = await fetch("http://localhost:3000/api/users/send-request", {
+            const response = await fetch(`${BACKEND_URL}/api/users/send-request`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ fromUserId: user.id, toUserId: targetId }),
@@ -41,7 +42,7 @@ const Users = () => {
 
     const acceptRequest = async (senderId) => {
         try {
-            const response = await fetch("http://localhost:3000/api/users/accept-request", {
+            const response = await fetch(`${BACKEND_URL}/api/users/accept-request`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ fromUserId: senderId, toUserId: user.id }),
@@ -54,7 +55,7 @@ const Users = () => {
 
     const denyRequest = async (senderId) => {
         try {
-            const response = await fetch("http://localhost:3000/api/users/deny-request", {
+            const response = await fetch(`${BACKEND_URL}/api/users/deny-request`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ fromUserId: senderId, toUserId: user.id }),
