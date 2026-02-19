@@ -49,7 +49,7 @@ app.use("/api/notifications", notificationRoutes);
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "https://chat-frontend-oo3x.onrender.com",
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -136,3 +136,4 @@ server.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 
 })
+
