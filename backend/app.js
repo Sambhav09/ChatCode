@@ -22,7 +22,7 @@ let users = {};
 
 app.use(cors(
     {
-        origin: "http://localhost:5173",
+        origin: "https://chatcode-client.onrender.com",
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -136,4 +136,5 @@ app.get('/', (req, res) => {
 
 server.listen(3000, () => {
     console.log('Server is running on port 3000')
+
 })
