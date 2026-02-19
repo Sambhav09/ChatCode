@@ -11,47 +11,94 @@ body {
 
 .app {
     display: grid;
-    grid-template-columns: 20% 1fr;
+    grid-template-columns: 260px 1fr;
     height: 100vh;
     /* fill viewport */
     width: 100vw;
     overflow: hidden;
+    background-color: #0b0f17;
 }
 
 .sidebar {
-    background-color: #0f172a;
+    background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
     color: #e2e8f0;
     display: flex;
     flex-direction: column;
-    padding: 16px 12px;
-    gap: 12px;
+    padding: 24px 16px;
+    gap: 20px;
     height: 100%;
     box-sizing: border-box;
-    overflow: auto;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sidebar .brand {
-    font-weight: 700;
-    font-size: 18px;
-    margin-bottom: 8px;
+    font-weight: 800;
+    font-size: 24px;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.025em;
 }
 
 .sidebar .nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    flex: 1;
 }
 
 .sidebar .nav a {
-    color: #cbd5e1;
+    color: #94a3b8;
     text-decoration: none;
-    padding: 10px 12px;
-    border-radius: 6px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.sidebar .nav a:hover {
-    background-color: #1e293b;
+.sidebar .nav a:hover,
+.sidebar .nav a.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.sidebar .nav a.active {
+    background-color: #3b82f6;
     color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.sidebar__footer {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.logout-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ef4444;
+    transition: all 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 .content {
@@ -63,40 +110,111 @@ body {
 
 .content__inner {
     min-height: 100%;
-    padding: 16px;
+    padding: 32px;
+}
+
+/* Room Card Styles */
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.room-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.room-card:hover {
+    transform: translateY(-4px);
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+}
+
+.room-card__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.room-card__meta {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* Glassmorphism Popup */
+.glass-popup {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 /* Responsive: on small screens, make the grid a single column */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .app {
         grid-template-columns: 1fr;
     }
 
     .sidebar {
-        height: auto;
+        display: none;
+        /* User might want a mobile menu later, but for now let's focus on desktop */
     }
 }
 
 
 
-.remote-cursor {
-    border-left: 2px solid #ff5733 !important;
-    margin-left: -1px;
-    box-sizing: border-box;
-    width: 2px !important;
-    position: relative;
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
 }
 
-.remote-cursor-label::after {
-    content: attr(data-username);
-    position: absolute;
-    top: -20px;
-    left: 5px;
-    background: rgba(255, 87, 51, 0.9);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: bold;
-    white-space: nowrap;
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes toast-slide-in {
+    from {
+        transform: translateX(100%) scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-toast-slide-in {
+    animation: toast-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-shimmer {
+    animation: shimmer 1.5s infinite;
 }

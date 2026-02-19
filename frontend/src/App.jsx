@@ -11,7 +11,8 @@ import Home from "../pages/Home";
 import EditorPage from "../pages/Editor";
 import Users from "../pages/Users";
 import Chat from "../pages/Chat";
-import Navbar from "../pages/Navbar";
+import Profile from "../pages/Profile";
+import Notifications from "../pages/Notifications";
 import "./App.css";
 import Edit from "../pages/Edit";
 import ProtectedLayout from "../pages/ProtectedLayout";
@@ -31,7 +32,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+          element={isLoggedIn() ? <Navigate to="/home" /> : <Navigate to="/login" />}
         />
 
 
@@ -39,13 +40,14 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Protected routes - render inside ProtectedLayout (which includes the sidebar) */}
         <Route element={<PrivateRoute><ProtectedLayout /></PrivateRoute>}>
           <Route path="/home" element={<Home />} />
           <Route path="/editor/:roomId" element={<EditorPage />} />
           <Route path="/users" element={<Users />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/edit" element={<Edit />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Route>
       </Routes>
     </Router>

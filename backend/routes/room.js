@@ -1,6 +1,7 @@
 import express from "express";
 import Room from "../models/Room.js";
 import Message from "../models/Message.js";
+import UserCode from "../models/UserCode.js";
 
 const router = express.Router();
 
@@ -60,13 +61,26 @@ router.post("/add", async (req, res) => {
 
 router.post("/save-code", async (req, res) => {
     try {
-        const { roomId, code } = req.body;
-        await Room.findByIdAndUpdate(roomId, {
-            code: code
-        });
+        const { roomId, userId, code } = req.body;
+
+        if (!roomId || !userId) {
+            return res.status(400).json({ message: "roomId and userId are required" });
+        }
+
+        // Upsert code into UserCode collection as requested
+        await UserCode.findOneAndUpdate(
+            { roomId, userId },
+            { code },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+
+        // Also update the main room code for synchronization
+        await Room.findByIdAndUpdate(roomId, { code });
+
         res.json({ message: "Code saved successfully" });
     } catch (error) {
         console.error("Error saving code:", error);
+        res.status(500).json({ message: "Server error" });
     }
 })
 
@@ -101,6 +115,17 @@ router.get("/get-messages", async (req, res) => {
 
     } catch (error) {
         console.error("Error fetching messages:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+router.get("/get-details", async (req, res) => {
+    try {
+        const { roomId } = req.query;
+        const room = await Room.findById(roomId).select("name createdBy").lean();
+        res.json(room);
+    } catch (error) {
+        console.error("Error fetching room details:", error);
         res.status(500).json({ message: "Server error" });
     }
 });

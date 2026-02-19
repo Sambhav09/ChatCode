@@ -9,6 +9,7 @@ import userRoutes from './routes/user.js'
 import roomRoutes from './routes/room.js'
 import Message from './models/Message.js'
 import MessageRoute from './routes/message.js'
+import notificationRoutes from './routes/notification.js'
 
 
 
@@ -30,7 +31,7 @@ app.use(cors(
 
 const server = createServer(app);
 
-console.log("mongodb ur;", process.env.MONGO_URI)
+console.log("mongodb uasdfasfasdfsdfr;", process.env.MONGO_URI)
 
 
 mongoose.connect(process.env.MONGO_URI)
@@ -44,6 +45,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/rooms", roomRoutes);
 app.use("/api/messages", MessageRoute);
+app.use("/api/notifications", notificationRoutes);
 
 
 
@@ -74,6 +76,10 @@ io.on('connection', (socket) => {
 
     })
 
+    socket.on("cursor-move", ({ roomId, userId, username, position }) => {
+        socket.to(roomId).emit("cursor-update", { userId, username, position })
+    })
+
     socket.on("chat-message", async ({ roomId, message, sender, userId }) => {
         socket.to(roomId).emit("new-message", { sender, message })
         const newMessage = new Message({
@@ -100,8 +106,8 @@ io.on('connection', (socket) => {
         await newMessage.save();
         if (users[to]) {
             io.to(users[to]).emit('private message', {
-                from,
-                message
+                sender: from,
+                text: message
             });
         }
     });
@@ -112,6 +118,16 @@ io.on('connection', (socket) => {
         io.emit("recieve-message", data)
 
     })
+
+    socket.on("send-invite", ({ recipientId, senderName, roomName }) => {
+        if (users[recipientId]) {
+            io.to(users[recipientId]).emit("new-notification", {
+                message: `${senderName} invited you to join room: ${roomName}`,
+                roomName,
+                senderName
+            });
+        }
+    });
 })
 
 app.get('/', (req, res) => {

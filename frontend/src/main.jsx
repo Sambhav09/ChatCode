@@ -15,8 +15,12 @@ if (token && user) {
   store.dispatch(loginSuccess({ user, token }));
 }
 
+import { ToastProvider } from './context/ToastContext';
+
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <App />
+    <ToastProvider>
+      <App />
+    </ToastProvider>
   </Provider>,
 )
