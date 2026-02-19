@@ -22,7 +22,7 @@ let users = {};
 
 app.use(cors(
     {
-        origin: "http://localhost:5173",
+        origin: "https://chat-frontend-oo3x.onrender.com",
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -134,4 +134,5 @@ app.get('/', (req, res) => {
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`)
+
 })
