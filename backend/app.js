@@ -11,11 +11,11 @@ import Message from './models/Message.js'
 import MessageRoute from './routes/message.js'
 import notificationRoutes from './routes/notification.js'
 
+dotenv.config()
 
+const port = process.env.PORT || 3000
 
 const app = express()
-
-dotenv.config()
 
 let users = {};
 
@@ -30,8 +30,6 @@ app.use(cors(
 
 
 const server = createServer(app);
-
-console.log("mongodb uasdfasfasdfsdfr;", process.env.MONGO_URI)
 
 
 mongoose.connect(process.env.MONGO_URI)
@@ -134,6 +132,6 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-server.listen(3000, () => {
-    console.log('Server is running on port 3000')
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
 })
