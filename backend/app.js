@@ -22,7 +22,7 @@ let users = {};
 
 app.use(cors(
     {
-        origin: "https://chat-frontend-oo3x.onrender.com",
+        origin: process.env.CLIENT_URL,
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -49,7 +49,7 @@ app.use("/api/notifications", notificationRoutes);
 
 const io = new Server(server, {
     cors: {
-        origin: "https://chat-frontend-oo3x.onrender.com",
+        origin: process.env.CLIENT_URL,
         methods: ['GET', 'POST'],
         credentials: true
     }
